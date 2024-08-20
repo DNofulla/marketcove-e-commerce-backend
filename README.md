@@ -1,4 +1,4 @@
-### MarketCove E-Commerce Platform UI
+### MarketCove E-Commerce Platform Back End
 
 
 <div align="center">
