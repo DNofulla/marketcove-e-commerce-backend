@@ -88,6 +88,41 @@ A comprehensive e-commerce backend API built with Spring Boot, featuring JWT aut
 
 The API will be available at `http://localhost:8080`
 
+## 📖 API Documentation
+
+This project includes comprehensive API documentation using **Swagger/OpenAPI 3.0**. The documentation is **publicly accessible** and provides interactive testing capabilities.
+
+### 🌐 Access URLs
+
+Once the application is running, you can access the API documentation at:
+
+- **📋 Swagger UI**: `http://localhost:8080/swagger-ui.html`
+  - Interactive API documentation with testing capabilities
+  - No authentication required to browse endpoints
+  
+- **📄 OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
+  - Raw OpenAPI specification in JSON format
+  
+- **📄 OpenAPI YAML**: `http://localhost:8080/v3/api-docs.yaml`
+  - Raw OpenAPI specification in YAML format
+
+### ✨ Documentation Features
+
+- **🔓 Public Access** - Browse all API endpoints without authentication
+- **🧪 Interactive Testing** - Test public endpoints (registration, login) directly from the UI
+- **🔐 JWT Authentication Support** - Use the "Authorize" button to enter JWT tokens for protected endpoints
+- **📚 Comprehensive Details** - Complete request/response schemas, examples, and descriptions
+- **🏷️ Organized by Tags** - Endpoints grouped logically (Authentication, Customer, Seller, etc.)
+- **📝 Example Requests** - Pre-filled example data for all endpoints
+
+### 🔑 Using Authentication in Swagger
+
+1. First, register or login using the public authentication endpoints
+2. Copy the `accessToken` from the response
+3. Click the **"Authorize"** button in Swagger UI
+4. Enter your token (without the "Bearer " prefix)
+5. Now you can test protected endpoints
+
 ### ⚙️ Configuration
 
 Key configuration in `application.properties`:
