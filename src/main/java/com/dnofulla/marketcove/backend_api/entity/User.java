@@ -126,7 +126,10 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled && isEmailVerified;
+        // For development with H2 database, skip email verification requirement
+        // TODO: Revert this for production - should be: return isEnabled &&
+        // isEmailVerified;
+        return isEnabled;
     }
 
     // Helper methods

@@ -237,4 +237,27 @@ public class AuthController {
                 "service", "MarketCove Authentication Service",
                 "timestamp", System.currentTimeMillis()));
     }
+
+    /**
+     * DEVELOPMENT ONLY: Manually verify email for testing with H2 database
+     * TODO: Remove this endpoint in production
+     */
+    @PostMapping("/dev/verify-email")
+    public ResponseEntity<?> devVerifyEmail(@RequestParam String email) {
+        try {
+            log.info("DEV: Manual email verification request for: {}", email);
+            boolean success = userService.manuallyVerifyEmail(email);
+
+            if (success) {
+                return ResponseEntity.ok(Map.of("message", "Email verified successfully (DEV MODE)"));
+            } else {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "User not found"));
+            }
+        } catch (Exception e) {
+            log.error("Error in dev email verification", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Email verification failed"));
+        }
+    }
 }

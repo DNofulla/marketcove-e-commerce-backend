@@ -233,6 +233,24 @@ public class UserService implements UserDetailsService {
     }
 
     /**
+     * DEVELOPMENT ONLY: Manually verify email for testing with H2 database
+     * TODO: Remove this method in production
+     */
+    public boolean manuallyVerifyEmail(String email) {
+        Optional<User> userOpt = userRepository.findByEmailIgnoreCase(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setEmailVerified(true);
+            user.setEmailVerificationToken(null);
+            userRepository.save(user);
+            log.info("DEV: Email manually verified for user: {}", user.getEmail());
+            return true;
+        }
+        log.warn("DEV: User not found for manual email verification: {}", email);
+        return false;
+    }
+
+    /**
      * User statistics record
      */
     public record UserStats(
