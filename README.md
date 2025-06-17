@@ -202,6 +202,44 @@ jwt.refresh-expiration=604800000
 ./mvnw test
 ```
 
+### Test Coverage
+
+#### 📊 Test Coverage Summary
+- **Total Tests**: 36 comprehensive tests
+- **Success Rate**: 100% passing tests
+
+#### 🏗️ Test Architecture Features
+- **🔧 @WebMvcTest** - Focused web layer testing
+- **🎭 @MockBean** - Service layer mocking for isolation
+- **📁 @Nested classes** - Well-organized test structure
+- **📋 @DisplayName** - Descriptive test documentation
+- **🔍 MockMvc** - HTTP request simulation
+- **🎯 Mockito** - Behavior verification and mocking
+- **✅ JSON Path validation** - Response content verification
+- **🔐 Security disabled** - No CSRF/auth interference in unit tests
+
+#### 📝 Test Categories Covered
+- **✅ Success Scenarios** - All happy path flows
+- **❌ Error Handling** - Service exceptions, validation failures
+- **🔍 Input Validation** - Missing fields, invalid formats, constraints
+- **🛡️ Security** - Token validation, authorization headers
+- **📊 Response Verification** - Status codes, JSON structure, error messages
+- **🔄 Service Integration** - Mocked service behavior verification
+
+#### 🎯 Test Suite Breakdown
+
+| Test Suite | Tests | Coverage |
+|------------|-------|----------|
+| Health Endpoint Tests | 1 | ✅ Health check functionality |
+| Registration Endpoint Tests | 9 | ✅ Customer/Seller/Business registration, validation, error handling |
+| Login Endpoint Tests | 5 | ✅ Valid/invalid credentials, validation, error handling |
+| Refresh Token Endpoint Tests | 5 | ✅ Token refresh, header validation, error handling |
+| Forgot Password Endpoint Tests | 4 | ✅ Password reset request, validation, error handling |
+| Reset Password Endpoint Tests | 4 | ✅ Password reset confirmation, validation, error handling |
+| Email Verification Endpoint Tests | 3 | ✅ Email verification, token validation, error handling |
+| Check Email Endpoint Tests | 3 | ✅ Email existence check, error handling |
+| User Stats Endpoint Tests | 2 | ✅ Statistics retrieval, error handling |
+
 ### Building for Production
 ```bash
 ./mvnw clean package
