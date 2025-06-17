@@ -4,8 +4,9 @@ services:
     restart: always
     environment:
       POSTGRES_DB: marketcove_db
-      POSTGRES_USER: daniel
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: changeit
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     volumes:
