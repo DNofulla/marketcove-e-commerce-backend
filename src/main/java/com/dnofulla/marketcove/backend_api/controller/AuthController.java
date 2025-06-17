@@ -4,7 +4,6 @@ import com.dnofulla.marketcove.backend_api.dto.auth.*;
 import com.dnofulla.marketcove.backend_api.service.AuthenticationService;
 import com.dnofulla.marketcove.backend_api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
