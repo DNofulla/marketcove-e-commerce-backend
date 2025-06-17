@@ -3,6 +3,15 @@ package com.dnofulla.marketcove.backend_api.controller;
 import com.dnofulla.marketcove.backend_api.dto.auth.*;
 import com.dnofulla.marketcove.backend_api.service.AuthenticationService;
 import com.dnofulla.marketcove.backend_api.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +30,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
+@Tag(name = "Authentication", description = "User authentication and account management endpoints")
 public class AuthController {
 
     private final AuthenticationService authenticationService;
@@ -30,6 +40,12 @@ public class AuthController {
      * Register a new user
      */
     @PostMapping("/register")
+    @Operation(summary = "Register a new user", description = "Create a new user account with email, password, and role")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User registered successfully", content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid registration data or email already exists", content = @Content(examples = @ExampleObject(value = "{\"error\": \"Email already registered\"}"))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
             log.info("Registration request received for email: {}", request.getEmail());
@@ -50,6 +66,12 @@ public class AuthController {
      * Login user
      */
     @PostMapping("/login")
+    @Operation(summary = "User login", description = "Authenticate user with email and password")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login successful", content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials", content = @Content(examples = @ExampleObject(value = "{\"error\": \"Invalid email or password\"}"))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
             log.info("Login request received for email: {}", request.getEmail());
@@ -70,6 +92,14 @@ public class AuthController {
      * Refresh access token
      */
     @PostMapping("/refresh-token")
+    @Operation(summary = "Refresh access token", description = "Generate new access token using refresh token")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Token refreshed successfully", content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Missing or invalid refresh token"),
+            @ApiResponse(responseCode = "401", description = "Refresh token expired or invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         try {
             String authHeader = request.getHeader("Authorization");
