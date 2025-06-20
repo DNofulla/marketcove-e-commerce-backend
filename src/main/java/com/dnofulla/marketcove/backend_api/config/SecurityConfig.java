@@ -5,6 +5,7 @@ import com.dnofulla.marketcove.backend_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -61,6 +62,37 @@ public class SecurityConfig {
                         .requestMatchers("/webjars/**").permitAll()
 
                         .requestMatchers("/error").permitAll()
+
+                        // Public storefront and item endpoints (read-only)
+                        .requestMatchers(HttpMethod.GET, "/api/storefronts").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/storefronts/{storefrontId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/storefronts/slug/{slug}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/storefronts/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/storefronts/featured").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/storefronts/top-rated").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/{itemId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/sku/{sku}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/storefront/{storefrontId}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/category/{category}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/price-range").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/featured").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/on-sale").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/best-selling").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/recent").permitAll()
+
+                        // Storefront and item management endpoints (business owners and sellers only)
+                        .requestMatchers("/api/storefronts/my-storefronts").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.POST, "/api/storefronts").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.PUT, "/api/storefronts/**").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/storefronts/**")
+                        .hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers("/api/items/my-items").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers("/api/items/low-stock").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.POST, "/api/items/**").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.PUT, "/api/items/**").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/items/**").hasAnyRole("BUSINESS_OWNER", "SELLER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/items/**").hasAnyRole("BUSINESS_OWNER", "SELLER")
 
                         // Customer endpoints
                         .requestMatchers("/api/customer/**").hasRole("CUSTOMER")
