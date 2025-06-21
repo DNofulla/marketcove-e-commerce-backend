@@ -383,7 +383,7 @@ aws.s3.region=us-east-1
 ### Test Coverage
 
 #### 📊 Test Coverage Summary
-- **Total Tests**: 36 comprehensive tests
+- **Total Tests**: 95 comprehensive tests
 - **Success Rate**: 100% passing tests
 
 #### 🏗️ Test Architecture Features
@@ -408,6 +408,7 @@ aws.s3.region=us-east-1
 
 | Test Suite | Tests | Coverage |
 |------------|-------|----------|
+| **Authentication API Tests** | | |
 | Health Endpoint Tests | 1 | ✅ Health check functionality |
 | Registration Endpoint Tests | 9 | ✅ Customer/Seller/Business registration, validation, error handling |
 | Login Endpoint Tests | 5 | ✅ Valid/invalid credentials, validation, error handling |
@@ -417,6 +418,24 @@ aws.s3.region=us-east-1
 | Email Verification Endpoint Tests | 3 | ✅ Email verification, token validation, error handling |
 | Check Email Endpoint Tests | 3 | ✅ Email existence check, error handling |
 | User Stats Endpoint Tests | 2 | ✅ Statistics retrieval, error handling |
+| **Storefront Management Tests** | | |
+| Create Storefront Endpoint Tests | 5 | ✅ Success, validation failures (missing name, name too long, invalid email), service exceptions |
+| Update Storefront Endpoint Tests | 3 | ✅ Success, ownership validation, not found scenarios |
+| Get Storefront Endpoint Tests | 4 | ✅ Get by ID/slug (success & not found), public access |
+| Get User Storefronts Endpoint Tests | 2 | ✅ Success with data, empty list scenarios |
+| Public Storefront Listing Tests | 4 | ✅ Active storefronts, search functionality, featured & top-rated listings |
+| Delete Storefront Endpoint Tests | 3 | ✅ Success, ownership validation, not found scenarios |
+| Storefront Image Upload Tests | 4 | ✅ Logo & banner upload (success & failure), file handling |
+| **Item Management Tests** | | |
+| Create Item Endpoint Tests | 6 | ✅ Success, validation failures (missing name, invalid price, negative stock), service exceptions |
+| Update Item Endpoint Tests | 3 | ✅ Success, ownership validation, not found scenarios |
+| Get Item Endpoint Tests | 4 | ✅ Get by ID/SKU (success & not found), view count increment |
+| Get Storefront Items Tests | 2 | ✅ Active items only, include inactive items |
+| Get User Items Tests | 2 | ✅ Success with pagination, empty results |
+| Search & Filter Item Tests | 7 | ✅ Text search, category filter, price range, featured/on-sale/best-selling/recent items |
+| Owner-specific Item Tests | 3 | ✅ Low stock alerts, stock updates (success & validation) |
+| Delete Item Endpoint Tests | 3 | ✅ Success, ownership validation, not found scenarios |
+| Item Image Management Tests | 4 | ✅ Multiple image upload/removal (success & failure), AWS S3 integration |
 
 ### Building for Production
 ```bash
