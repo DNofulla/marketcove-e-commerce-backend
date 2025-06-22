@@ -42,6 +42,15 @@ A comprehensive e-commerce backend API built with Spring Boot, featuring JWT aut
 - **🔍 Advanced Search & Filtering** by category, price range, ratings
 - **📈 Product Analytics** with view counts, sales tracking, and ratings
 
+### 🛒 Shopping Cart Management
+- **🛍️ Persistent Shopping Carts** for authenticated customers
+- **📊 Real-time Cart Updates** with automatic total calculations
+- **🔄 Quantity Management** with stock validation
+- **💰 Price Tracking** - stores item prices at time of adding to cart
+- **🔍 Price Change Detection** - alerts when item prices change
+- **📦 Stock Validation** - prevents adding more items than available
+- **🗂️ Cart Persistence** - cart saved across sessions
+
 ### ☁️ AWS Integration (Optional)
 - **🖼️ S3 Image Storage** for storefront logos, banners, and product images
 - **🔧 Configurable Cloud Storage** - easily disabled for development
@@ -114,6 +123,17 @@ A comprehensive e-commerce backend API built with Spring Boot, featuring JWT aut
 | POST | `/{id}/images` | ✅ Owner | Upload item images |
 | DELETE | `/{id}/images?imageUrl=` | ✅ Owner | Remove item image |
 | PATCH | `/{id}/stock?quantity=` | ✅ Owner | Update stock quantity |
+
+### 🛒 Shopping Cart (`/api/cart`)
+
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/` | ✅ Customer | Get current user's cart |
+| POST | `/add` | ✅ Customer | Add item to cart |
+| PUT | `/items/{cartItemId}` | ✅ Customer | Update cart item quantity |
+| DELETE | `/items/{cartItemId}` | ✅ Customer | Remove item from cart |
+| DELETE | `/clear` | ✅ Customer | Clear entire cart |
+| GET | `/count` | ✅ Customer | Get cart item count |
 
 ### Role-based Endpoints
 
@@ -383,7 +403,7 @@ aws.s3.region=us-east-1
 ### Test Coverage
 
 #### 📊 Test Coverage Summary
-- **Total Tests**: 95 comprehensive tests
+- **Total Tests**: 139 comprehensive tests
 - **Success Rate**: 100% passing tests
 
 #### 🏗️ Test Architecture Features
@@ -397,12 +417,14 @@ aws.s3.region=us-east-1
 - **🔐 Security disabled** - No CSRF/auth interference in unit tests
 
 #### 📝 Test Categories Covered
-- **✅ Success Scenarios** - All happy path flows
+- **✅ Success Scenarios** - All happy path flows  
 - **❌ Error Handling** - Service exceptions, validation failures
 - **🔍 Input Validation** - Missing fields, invalid formats, constraints
-- **🛡️ Security** - Token validation, authorization headers
+- **🛡️ Security** - Token validation, authorization headers, cart ownership
 - **📊 Response Verification** - Status codes, JSON structure, error messages
 - **🔄 Service Integration** - Mocked service behavior verification
+- **🛒 Cart Operations** - Add/remove items, quantity updates, stock validation
+- **🧪 Business Logic** - Service layer testing, edge cases, data persistence
 
 #### 🎯 Test Suite Breakdown
 
@@ -436,6 +458,20 @@ aws.s3.region=us-east-1
 | Owner-specific Item Tests | 3 | ✅ Low stock alerts, stock updates (success & validation) |
 | Delete Item Endpoint Tests | 3 | ✅ Success, ownership validation, not found scenarios |
 | Item Image Management Tests | 4 | ✅ Multiple image upload/removal (success & failure), AWS S3 integration |
+| **Shopping Cart Management Tests** | | |
+| Get Cart Endpoint Tests | 3 | ✅ Existing cart with items, empty cart for new customers, error handling |
+| Add to Cart Endpoint Tests | 7 | ✅ Success, validation failures (missing ID/quantity, invalid quantity), item not found, insufficient stock, unexpected errors |
+| Update Cart Item Endpoint Tests | 6 | ✅ Success, validation failures (missing/invalid quantity), item not found, insufficient stock, unauthorized access |
+| Remove from Cart Endpoint Tests | 3 | ✅ Success, item not found, unauthorized access |
+| Clear Cart Endpoint Tests | 2 | ✅ Success, unexpected error handling |
+| Get Cart Item Count Endpoint Tests | 3 | ✅ Success with count, empty cart (0 count), error handling |
+| **Shopping Cart Service Tests** | | |
+| Get Cart Service Tests | 2 | ✅ Existing cart retrieval, new cart creation |
+| Add to Cart Service Tests | 6 | ✅ New item addition, existing item quantity update, item not found, inactive item, insufficient stock, total quantity validation |
+| Update Cart Item Service Tests | 4 | ✅ Success, item not found, unauthorized access, insufficient stock |
+| Remove from Cart Service Tests | 3 | ✅ Success, item not found, unauthorized access |
+| Clear Cart Service Tests | 2 | ✅ Success, new cart creation and clearing |
+| Get Cart Item Count Service Tests | 2 | ✅ Existing cart count, no cart (returns 0) |
 
 ### Building for Production
 ```bash

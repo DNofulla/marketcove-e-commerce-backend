@@ -425,7 +425,7 @@ public class ItemService {
         }
     }
 
-    private ItemResponse convertToResponse(Item item) {
+    public ItemResponse convertToResponse(Item item) {
         ItemResponse response = new ItemResponse();
         response.setId(item.getId());
         response.setItemName(item.getItemName());
